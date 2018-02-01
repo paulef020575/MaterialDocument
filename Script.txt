@@ -1,0 +1,586 @@
+/*------------------------------------*/
+
+CREATE EXCEPTION LOGONERROR 'LogonError';
+
+
+/*------------------------------------*/
+
+
+SET TERM ^ ;
+
+create PROCEDURE SECLOGON (
+    USERID INTEGER,
+    PASSWORD VARCHAR(32))
+RETURNS (
+    CONNECTIONSTRING INTEGER)
+AS
+DECLARE VARIABLE USERCOUNT INTEGER;
+begin
+  /* Procedure Text */
+  select count(id)
+    from secUsers
+   where id = :USERID
+     and accesspassword = :PASSWORD
+    into :USERCOUNT;
+
+  if (:USERCOUNT = 0) THEN
+  begin
+       exception logonError;
+  end
+
+  select valueVariable
+    from systemvariables
+   where nameVariable like 'connectionString'
+    into :CONNECTIONSTRING;
+
+  suspend;
+end
+
+^
+
+SET TERM ; ^
+
+
+
+/*------------------------------------*/
+
+
+SET TERM ^ ;
+
+ALTER PROCEDURE SECUSERLIST 
+RETURNS (
+    ID INTEGER,
+    LASTNAME VARCHAR(50),
+    FIRSTNAME VARCHAR(50),
+    SECONDNAME VARCHAR(50))
+AS
+begin
+  /* Procedure Text */
+  for
+     select id,
+            lastname,
+            firstname,
+            secondname
+       from secUsers
+      where isLocked = 0
+       into :id,
+            :lastname,
+            :FIRSTNAME,
+            :secondname
+   do
+     suspend;
+end
+
+^
+
+SET TERM ; ^
+
+/*------------------------------------*/
+
+
+CREATE TABLE SECUSERUNIT(
+    USERID INTEGER NOT NULL,
+    UNITID INTEGER NOT NULL,
+    ROLEID INTEGER NOT NULL);
+
+/*------------------------------------*/
+
+
+
+SET TERM ^ ;
+create PROCEDURE SECUNITUSERLIST (
+    UNITID INTEGER,
+    ROLEID INTEGER)
+RETURNS (
+    ID INTEGER,
+    LASTNAME VARCHAR(50),
+    FIRSTNAME VARCHAR(50),
+    SECONDNAME VARCHAR(50),
+    ISLOCKED SMALLINT)
+AS
+begin
+  /* Procedure Text */
+  for
+     select id,
+            lastname,
+            firstname,
+            secondname,
+            isLocked
+       from secUsers
+      where isLocked = 0
+        and ((:ROLEID = 0 and id not in (select userId from secUserUnit where unitId = :unitId))
+             or (id in (select userId from secuserunit where unitId = :unitId and roleId = :roleId)))
+       into :id,
+            :lastname,
+            :FIRSTNAME,
+            :secondname,
+            :isLocked
+   do
+     suspend;
+end
+
+^
+
+SET TERM ; ^
+
+/*------------------------------------*/
+
+
+
+SET TERM ^ ;
+
+CREATE PROCEDURE SECSETUNITUSER (
+    USERID INTEGER,
+    UNITID INTEGER,
+    ROLEID INTEGER)
+AS
+begin
+  /* Procedure Text */
+  update or insert into secuserunit
+        (userId, unitId, roleId)
+     values
+        (:userId, :unitId, :roleId)
+     matching (userId, unitId);
+
+  delete from secUserUnit
+         where userId = :USERID
+               and :roleId = 0;
+
+end
+
+^
+
+SET TERM ; ^
+
+/*------------------------------------*/
+
+
+alter table SECUSERUNIT
+add constraint FK_SECUSERUNIT_UNIT
+foreign key (UNITID)
+references REFUNITS(ID)
+on delete CASCADE
+on update CASCADE;
+
+
+/*------------------------------------*/
+
+
+alter table SECUSERUNIT
+add constraint FK_SECUSERUNIT_USER
+foreign key (USERID)
+references SECUSERS(ID)
+on delete CASCADE
+on update CASCADE;
+
+/*------------------------------------*/
+
+alter table DOCAPPOINTS
+add constraint FK_DOCAPPOINTS_UNITS
+foreign key (IDUNIT)
+references REFUNITS(ID)
+On delete no action
+ou update cascade;
+
+
+/*------------------------------------*/
+
+
+CREATE TABLE DOCMATERIALPERMIT(
+    ID INTEGER NOT NULL,
+    UNITID INTEGER NOT NULL,
+    DOCNUMBER VARCHAR(50) NOT NULL,
+    DOCDATE DATE NOT NULL,
+    PERSON VARCHAR(300),
+    VEHICLEMARK VARCHAR(100),
+    LICENSEPLATE VARCHAR(50),
+    CREATEFLAG    SMALLINT DEFAULT 0 NOT NULL,
+    CREATOR INTEGER NOT NULL,
+    CREATEDATE DATE NOT NULL,
+    SIGNEDFLAG    SMALLINT DEFAULT 0 NOT NULL,
+    SIGNER INTEGER,
+    SIGNDATE DATE,
+    ENTRYFLAG     SMALLINT DEFAULT 0 NOT NULL,
+    ENTRYPOINT    INTEGER,
+    ENTRYDATE     DATE,
+    COMMENT       BLOB SUB_TYPE 1 SEGMENT SIZE 4096,
+    MODIFIER      INTEGER NOT NULL,
+    MODIFYDATE    DATE DEFAULT current_timestamp NOT NULL);
+
+
+/*------------------------------------*/
+
+
+alter table DOCMATERIALPERMIT
+add constraint PK_DOCMATERIALPERMIT
+primary key (ID);
+
+
+/*------------------------------------*/
+
+CREATE GENERATOR GEN_DOCMATERIALPERMIT_ID;
+
+/*------------------------------------*/
+
+alter table DOCMATERIALPERMIT
+add constraint FK_DOCMATERIALPERMIT_UNIT
+foreign key (UNITID)
+references REFUNITS(ID)
+on update CASCADE;
+
+/*------------------------------------*/
+
+alter table DOCMATERIALPERMIT
+add constraint FK_DOCMATERIALPERMIT_CREAT
+foreign key (CREATOR)
+references SECUSERS(ID)
+on update CASCADE;
+
+/*------------------------------------*/
+
+alter table DOCMATERIALPERMIT
+add constraint FK_DOCMATERIALPERMIT_SIGN
+foreign key (SIGNER)
+references SECUSERS(ID)
+on update CASCADE;
+
+/*------------------------------------*/
+
+CREATE TABLE DOCMATERIALPERMITITEM(
+    ID INTEGER NOT NULL,
+    DOCUMENT INTEGER NOT NULL,
+    MATERIAL VARCHAR(300) NOT NULL,
+    MATERIALUNIT VARCHAR(25),
+    QUANTITY DECIMAL(10,3));
+
+
+/*------------------------------------*/
+
+alter table DOCMATERIALPERMITITEM
+add constraint PK_DOCMATERIALPERMITITEM
+primary key (ID);
+
+/*------------------------------------*/
+
+CREATE GENERATOR GEN_DOCMATERIALPERMITITEM_ID;
+
+/*------------------------------------*/
+
+alter table DOCMATERIALPERMITITEM
+add constraint FK_MATPRMITEM_DOC
+foreign key (DOCUMENT)
+references DOCMATERIALPERMIT(ID)
+on delete CASCADE
+on update CASCADE;
+
+/*------------------------------------*/
+
+CREATE TABLE DOCHISTORY(
+    DOCUMENTTYPE VARCHAR(25) NOT NULL,
+    DOCUMENTID INTEGER NOT NULL,
+    OPERATION VARCHAR(25) NOT NULL,
+    OPERATIONDATE DATE NOT NULL,
+    USERID         INTEGER);
+
+/*------------------------------------*/
+
+create index DOCHISTORY_IDX
+on DOCHISTORY (DOCUMENTTYPE,DOCUMENTID,OPERATION);
+
+/*------------------------------------*/
+
+SET TERM ^ ;
+
+CREATE TRIGGER DOCMATERIALPERMIT_AI0 FOR DOCMATERIALPERMIT
+ACTIVE AFTER INSERT POSITION 0
+AS
+begin
+  /* Trigger text */
+   insert into dochistory
+         (documentType, documentId, operation, operationDate, userId)
+      values
+         ('materialPermit', new.id, 'insert', new.modifydate, new.modifier);
+end
+
+^
+
+SET TERM ; ^
+
+/*------------------------------------*/
+
+SET TERM ^ ;
+
+CREATE TRIGGER DOCMATERIALPERMIT_AU0 FOR DOCMATERIALPERMIT
+ACTIVE AFTER UPDATE POSITION 0
+AS
+begin
+  /* Trigger text */
+   insert into docHistory
+         (documentType, documentId, operation, operationDate, userId)
+      values
+         ('materialPermit', new.id, 'update', new.modifydate, new.modifier);
+end
+
+^
+
+SET TERM ; ^
+
+/*------------------------------------*/
+
+SET TERM ^ ;
+
+CREATE TRIGGER DOCMATERIALPERMIT_AD0 FOR DOCMATERIALPERMIT
+ACTIVE AFTER DELETE POSITION 0
+AS
+begin
+  /* Trigger text */
+  insert into dochistory
+        (documentType, documentId, operation, operationDate, userId)
+     values
+        ('materialPermit', old.id, 'delete', current_timestamp, 0);
+end
+
+^
+
+SET TERM ; ^
+
+/*------------------------------------*/
+
+SET TERM ^ ;
+
+create PROCEDURE DOCMATERIALPERMITDELETE (
+    ID INTEGER,
+    USERID INTEGER)
+AS
+BEGIN
+  DELETE FROM DOCMATERIALPERMIT
+         WHERE (ID = :ID);
+
+  update docHistory
+     set userId = :userId
+   where documentType = 'materialPermit'
+     and documentId = :ID
+     and operation = 'delete';
+END
+
+^
+
+SET TERM ; ^
+
+/*------------------------------------*/
+
+SET TERM ^ ;
+
+create PROCEDURE DOCMATERIALPERMITINSERT (
+    ID INTEGER,
+    UNITID INTEGER,
+    DOCNUMBER VARCHAR(50),
+    DOCDATE DATE,
+    PERSON VARCHAR(300),
+    VEHICLEMARK VARCHAR(100),
+    LICENSEPLATE VARCHAR(50),
+    CREATEFLAG SMALLINT,
+    CREATOR INTEGER,
+    CREATEDATE DATE,
+    SIGNEDFLAG SMALLINT,
+    SIGNER INTEGER,
+    SIGNDATE DATE,
+    ENTRYFLAG SMALLINT,
+    ENTRYPOINT INTEGER,
+    ENTRYDATE DATE,
+    COMMENT BLOB SUB_TYPE 1 SEGMENT SIZE 4096)
+AS
+BEGIN
+  INSERT INTO DOCMATERIALPERMIT (
+    ID,
+    UNITID,
+    DOCNUMBER,
+    DOCDATE,
+    PERSON,
+    VEHICLEMARK,
+    LICENSEPLATE,
+    CREATEFLAG,
+    CREATOR,
+    CREATEDATE,
+    SIGNEDFLAG,
+    SIGNER,
+    SIGNDATE,
+    ENTRYFLAG,
+    ENTRYPOINT,
+    ENTRYDATE,
+    COMMENT,
+    MODIFIER,
+    MODIFYDATE)
+  VALUES (
+    :ID,
+    :UNITID,
+    :DOCNUMBER,
+    :DOCDATE,
+    :PERSON,
+    :VEHICLEMARK,
+    :LICENSEPLATE,
+    :CREATEFLAG,
+    :CREATOR,
+    :CREATEDATE,
+    :SIGNEDFLAG,
+    :SIGNER,
+    :SIGNDATE,
+    :ENTRYFLAG,
+    :ENTRYPOINT,
+    :ENTRYDATE,
+    :COMMENT,
+    :creatoR,
+    current_timestamp);
+END
+
+^
+
+SET TERM ; ^
+
+/*------------------------------------*/
+
+SET TERM ^ ;
+
+create PROCEDURE DOCMATERIALPERMITLOADLIST (
+    DOCUMENTID INTEGER,
+    UNIT INTEGER,
+    DATEFROM DATE,
+    DATETO DATE)
+RETURNS (
+    ID INTEGER,
+    UNITID INTEGER,
+    UNITNAME VARCHAR(50),
+    DOCNUMBER VARCHAR(50),
+    DOCDATE DATE,
+    PERSON VARCHAR(300),
+    VEHICLEMARK VARCHAR(100),
+    LICENSEPLATE VARCHAR(50),
+    CREATEFLAG SMALLINT,
+    CREATOR INTEGER,
+    CREATORNAME VARCHAR(200),
+    CREATEDATE DATE,
+    SIGNEDFLAG SMALLINT,
+    SIGNER INTEGER,
+    SIGNERNAME VARCHAR(200),
+    SIGNDATE DATE,
+    ENTRYFLAG SMALLINT,
+    ENTRYPOINT INTEGER,
+    ENTRYPOINTNAME VARCHAR(50),
+    ENTRYDATE DATE,
+    COMMENT BLOB SUB_TYPE 1 SEGMENT SIZE 4096)
+AS
+BEGIN
+  FOR SELECT doc.ID,
+             doc.UNITID,
+             (select name from refUnits where id = doc.unitId),
+             doc.DOCNUMBER,
+             doc.DOCDATE,
+             doc.PERSON,
+             doc.VEHICLEMARK,
+             doc.LICENSEPLATE,
+             doc.CREATEFLAG,
+             doc.CREATOR,
+             (select lastname || ' '|| firstname || ' ' || secondname
+                     from secUsers where id = doc.creator),
+             doc.CREATEDATE,
+             doc.SIGNEDFLAG,
+             doc.SIGNER,
+             (select lastname || ' '|| firstname || ' ' || secondname
+                     from secUsers where id = doc.signer),
+             doc.SIGNDATE,
+             doc.ENTRYFLAG,
+             doc.ENTRYPOINT,
+             (select name from refEntryPoint where id = doc.entryPoint),
+             ENTRYDATE,
+             COMMENT
+      FROM DOCMATERIALPERMIT doc
+     where (:documentId is not null
+            and doc.id = :documentId)
+           or (:documentId is null
+               and doc.unitId = :UNIT
+               and doc.docdate between :dateFrom and :dateTo
+              )
+      INTO :ID,
+           :UNITID,
+           :unitName,
+           :DOCNUMBER,
+           :DOCDATE,
+           :PERSON,
+           :VEHICLEMARK,
+           :LICENSEPLATE,
+           :CREATEFLAG,
+           :CREATOR,
+           :CREATORNAME,
+           :CREATEDATE,
+           :SIGNEDFLAG,
+           :SIGNER,
+           :signerName,
+           :SIGNDATE,
+           :ENTRYFLAG,
+           :ENTRYPOINT,
+           :entryPointName,
+           :ENTRYDATE,
+           :COMMENT
+  DO
+  BEGIN
+    SUSPEND;
+  END
+END
+
+^
+
+SET TERM ; ^
+
+/*------------------------------------*/
+
+SET TERM ^ ;
+
+create PROCEDURE DOCMATERIALPERMITUPDATE (
+    ID INTEGER,
+    UNITID INTEGER,
+    DOCNUMBER VARCHAR(50),
+    DOCDATE DATE,
+    PERSON VARCHAR(300),
+    VEHICLEMARK VARCHAR(100),
+    LICENSEPLATE VARCHAR(50),
+    CREATEFLAG SMALLINT,
+    CREATOR INTEGER,
+    CREATEDATE DATE,
+    SIGNEDFLAG SMALLINT,
+    SIGNER INTEGER,
+    SIGNDATE DATE,
+    ENTRYFLAG SMALLINT,
+    ENTRYPOINT INTEGER,
+    ENTRYDATE DATE,
+    COMMENT BLOB SUB_TYPE 1 SEGMENT SIZE 4096,
+    MODIFIER INTEGER)
+AS
+BEGIN
+  UPDATE DOCMATERIALPERMIT
+  SET UNITID = :UNITID,
+      DOCNUMBER = :DOCNUMBER,
+      DOCDATE = :DOCDATE,
+      PERSON = :PERSON,
+      VEHICLEMARK = :VEHICLEMARK,
+      LICENSEPLATE = :LICENSEPLATE,
+      CREATEFLAG = :CREATEFLAG,
+      CREATOR = :CREATOR,
+      CREATEDATE = :CREATEDATE,
+      SIGNEDFLAG = :SIGNEDFLAG,
+      SIGNER = :SIGNER,
+      SIGNDATE = :SIGNDATE,
+      ENTRYFLAG = :ENTRYFLAG,
+      ENTRYPOINT = :ENTRYPOINT,
+      ENTRYDATE = :ENTRYDATE,
+      COMMENT = :COMMENT,
+      MODIFIER = :MODIFIER,
+      MODIFYDATE = current_timestamp
+  WHERE (ID = :ID);
+END
+
+^
+
+SET TERM ; ^
+
+/*------------------------------------*/
+

@@ -1,0 +1,602 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.0" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="2">
+      <MaterialPermit Ref="2" type="DataTableSource" isKey="true">
+        <Alias>MaterialPermit</Alias>
+        <Columns isList="true" count="8">
+          <value>DocNumber,System.String</value>
+          <value>DocDate,System.DateTime</value>
+          <value>Person,System.String</value>
+          <value>Unit,System.String</value>
+          <value>VehicleMark,System.String</value>
+          <value>LicensePlate,System.String</value>
+          <value>Creator,System.String</value>
+          <value>Signer,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Name>MaterialPermit</Name>
+        <NameInSource>DataSet1</NameInSource>
+      </MaterialPermit>
+      <PermitItems Ref="3" type="DataTableSource" isKey="true">
+        <Alias>PermitItems</Alias>
+        <Columns isList="true" count="4">
+          <value>Document,System.Int32</value>
+          <value>Material,System.String</value>
+          <value>Quantity,System.Decimal</value>
+          <value>MaterialUnit,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Name>PermitItems</Name>
+        <NameInSource>DataSet1</NameInSource>
+      </PermitItems>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="0" />
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <Pages isList="true" count="2">
+    <Страница1 Ref="4" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <ColumnGaps>0.5</ColumnGaps>
+      <Columns>2</Columns>
+      <Components isList="true" count="2">
+        <ВложенныйОтчет1 Ref="5" type="SubReport" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0,9,20.6</ClientRectangle>
+          <Components isList="true" count="0" />
+          <MaxSize>0,0</MaxSize>
+          <MinSize>0,0</MinSize>
+          <Name>ВложенныйОтчет1</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <SubReportPageGuid>b6c3853979114e8ab9782e5ab9309e7e</SubReportPageGuid>
+        </ВложенныйОтчет1>
+        <ВложенныйОтчет2 Ref="6" type="SubReport" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>9.4,0,9,20.6</ClientRectangle>
+          <Components isList="true" count="0" />
+          <Guid>b5b66c68fa214a6b967d3abd17d4f460</Guid>
+          <MaxSize>0,0</MaxSize>
+          <MinSize>0,0</MinSize>
+          <Name>ВложенныйОтчет2</Name>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <SubReportPageGuid>b6c3853979114e8ab9782e5ab9309e7e</SubReportPageGuid>
+        </ВложенныйОтчет2>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>c63f01bc2e034a75a3d0e7a291e669fe</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>Страница1</Name>
+      <Page isRef="4" />
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>21</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="7" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Страница1>
+    <ВложенныйОтчет_1 Ref="8" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="4">
+        <ЗаголовокОтчета2 Ref="9" type="ReportTitleBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0.4,9,1.8</ClientRectangle>
+          <Components isList="true" count="3">
+            <Текст3 Ref="10" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,19,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>92d4ea37680140cf9810aa1b49838442</Guid>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст3</Name>
+              <Page isRef="8" />
+              <Parent isRef="9" />
+              <Text>Материальный пропуск № {MaterialPermit.DocNumber}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="11" type="GeneralFormat" isKey="true" />
+              <Type>Expression</Type>
+            </Текст3>
+            <Текст1 Ref="12" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.6,19,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>225fe1396a624cf5b6452b97e4bcd092</Guid>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст1</Name>
+              <Page isRef="8" />
+              <Parent isRef="9" />
+              <Text>{MaterialPermit.DocDate}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="13" type="DateFormat" isKey="true">
+                <StringFormat>D</StringFormat>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Текст1>
+            <Текст4 Ref="14" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1.2,9,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст4</Name>
+              <Page isRef="8" />
+              <Parent isRef="9" />
+              <Text>{MaterialPermit.Unit}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="15" type="GeneralFormat" isKey="true" />
+              <Type>Expression</Type>
+            </Текст4>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <Guid>6b5811991128430594425b9b21664dcc</Guid>
+          <MaxHeight>0</MaxHeight>
+          <MinHeight>0</MinHeight>
+          <Name>ЗаголовокОтчета2</Name>
+          <Page isRef="8" />
+          <Parent isRef="8" />
+        </ЗаголовокОтчета2>
+        <Заголовок_данныхPermitItems Ref="16" type="HeaderBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,3,9,3.6</ClientRectangle>
+          <Components isList="true" count="10">
+            <Заголовок_данныхPermitItems_Document Ref="17" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,2.8,1,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Заголовок_данныхPermitItems_Document</Name>
+              <Page isRef="8" />
+              <Parent isRef="16" />
+              <Text>№ поз.</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="18" type="GeneralFormat" isKey="true" />
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Заголовок_данныхPermitItems_Document>
+            <Заголовок_данныхPermitItems_Material Ref="19" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>1,2.8,4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Заголовок_данныхPermitItems_Material</Name>
+              <Page isRef="8" />
+              <Parent isRef="16" />
+              <Text>Наименование груза</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="20" type="GeneralFormat" isKey="true" />
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </Заголовок_данныхPermitItems_Material>
+            <Заголовок_данныхPermitItems_Quantity Ref="21" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5,2.8,2.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Заголовок_данныхPermitItems_Quantity</Name>
+              <Page isRef="8" />
+              <Parent isRef="16" />
+              <Text>Кол-во</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="22" type="GeneralFormat" isKey="true" />
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </Заголовок_данныхPermitItems_Quantity>
+            <Заголовок_данныхPermitItems_MaterialUnit Ref="23" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <ClientRectangle>7.4,2.8,1.6,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,10,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Заголовок_данныхPermitItems_MaterialUnit</Name>
+              <Page isRef="8" />
+              <Parent isRef="16" />
+              <Text>Ед-ц</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="24" type="GeneralFormat" isKey="true" />
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </Заголовок_данныхPermitItems_MaterialUnit>
+            <Текст2 Ref="25" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.8,0,6.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст2</Name>
+              <Page isRef="8" />
+              <Parent isRef="16" />
+              <Text>{MaterialPermit.Person}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="26" type="GeneralFormat" isKey="true" />
+            </Текст2>
+            <Текст5 Ref="27" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0,2.8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст5</Name>
+              <Page isRef="8" />
+              <Parent isRef="16" />
+              <Text>Предъявитель</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="28" type="GeneralFormat" isKey="true" />
+            </Текст5>
+            <Текст6 Ref="29" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.8,0.6,6.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст6</Name>
+              <Page isRef="8" />
+              <Parent isRef="16" />
+              <Text>{MaterialPermit.VehicleMark}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="30" type="GeneralFormat" isKey="true" />
+            </Текст6>
+            <Текст7 Ref="31" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.6,2.8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст7</Name>
+              <Page isRef="8" />
+              <Parent isRef="16" />
+              <Text>Марка а/м</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="32" type="GeneralFormat" isKey="true" />
+              <Type>Expression</Type>
+            </Текст7>
+            <Текст8 Ref="33" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>2.8,1.2,6.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст8</Name>
+              <Page isRef="8" />
+              <Parent isRef="16" />
+              <Text>{MaterialPermit.LicensePlate}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="34" type="GeneralFormat" isKey="true" />
+            </Текст8>
+            <Текст9 Ref="35" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1.2,2.8,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст9</Name>
+              <Page isRef="8" />
+              <Parent isRef="16" />
+              <Text>Гос. номер</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="36" type="GeneralFormat" isKey="true" />
+            </Текст9>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <MaxHeight>0</MaxHeight>
+          <MinHeight>0</MinHeight>
+          <Name>Заголовок_данныхPermitItems</Name>
+          <Page isRef="8" />
+          <Parent isRef="8" />
+        </Заголовок_данныхPermitItems>
+        <ДанныеPermitItems Ref="37" type="DataBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,7.4,9,0.8</ClientRectangle>
+          <Components isList="true" count="4">
+            <ДанныеPermitItems_Document Ref="38" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,0,1,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <HorAlignment>Right</HorAlignment>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>ДанныеPermitItems_Document</Name>
+              <Page isRef="8" />
+              <Parent isRef="37" />
+              <Text>{Line}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="39" type="GeneralFormat" isKey="true" />
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </ДанныеPermitItems_Document>
+            <ДанныеPermitItems_Material Ref="40" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>1,0,4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>ДанныеPermitItems_Material</Name>
+              <Page isRef="8" />
+              <Parent isRef="37" />
+              <Text>{PermitItems.Material}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="41" type="GeneralFormat" isKey="true" />
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </ДанныеPermitItems_Material>
+            <ДанныеPermitItems_Quantity Ref="42" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>5,0,2.4,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <HorAlignment>Right</HorAlignment>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>ДанныеPermitItems_Quantity</Name>
+              <Page isRef="8" />
+              <Parent isRef="37" />
+              <Text>{PermitItems.Quantity}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="43" type="GeneralFormat" isKey="true" />
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </ДанныеPermitItems_Quantity>
+            <ДанныеPermitItems_MaterialUnit Ref="44" type="Text" isKey="true">
+              <Border>All;Black;1;Solid;False;4;Black</Border>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>7.4,0,1.6,0.8</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8</Font>
+              <HorAlignment>Center</HorAlignment>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>ДанныеPermitItems_MaterialUnit</Name>
+              <Page isRef="8" />
+              <Parent isRef="37" />
+              <Text>{PermitItems.MaterialUnit}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="45" type="GeneralFormat" isKey="true" />
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <VertAlignment>Center</VertAlignment>
+            </ДанныеPermitItems_MaterialUnit>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataRelationName />
+          <DataSourceName>PermitItems</DataSourceName>
+          <Filters isList="true" count="0" />
+          <MaxHeight>0</MaxHeight>
+          <MinHeight>0</MinHeight>
+          <Name>ДанныеPermitItems</Name>
+          <Page isRef="8" />
+          <Parent isRef="8" />
+          <Sort isList="true" count="0" />
+        </ДанныеPermitItems>
+        <ИтогДанных1 Ref="46" type="FooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,9,9,2.6</ClientRectangle>
+          <Components isList="true" count="6">
+            <Текст10 Ref="47" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,0.4,2.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст10</Name>
+              <Page isRef="8" />
+              <Parent isRef="46" />
+              <Text>Зав. складом</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="48" type="GeneralFormat" isKey="true" />
+              <Type>Expression</Type>
+            </Текст10>
+            <Текст11 Ref="49" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>0,1.4,2.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <Guid>c99187bb28aa45abade6ed3c153cd916</Guid>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст11</Name>
+              <Page isRef="8" />
+              <Parent isRef="46" />
+              <Text>Начальник цеха</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="50" type="GeneralFormat" isKey="true" />
+              <Type>Expression</Type>
+            </Текст11>
+            <Текст12 Ref="51" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.6,0.4,3.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст12</Name>
+              <Page isRef="8" />
+              <Parent isRef="46" />
+              <Text>{MaterialPermit.Creator}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="52" type="GeneralFormat" isKey="true" />
+              <Type>Expression</Type>
+            </Текст12>
+            <Текст13 Ref="53" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>5.6,1.2,3.4,0.6</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,8,Bold</Font>
+              <LinesOfUnderline>None</LinesOfUnderline>
+              <Margins>0,0,0,0</Margins>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>Текст13</Name>
+              <Page isRef="8" />
+              <Parent isRef="46" />
+              <Text>{MaterialPermit.Signer}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="54" type="GeneralFormat" isKey="true" />
+              <Type>Expression</Type>
+            </Текст13>
+            <ГоризонтальнаяЛиния1 Ref="55" type="Stimulsoft.Report.Components.StiHorizontalLinePrimitive" isKey="true">
+              <ClientRectangle>2.4,1,3,0.0254</ClientRectangle>
+              <Color>Black</Color>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>ГоризонтальнаяЛиния1</Name>
+              <Page isRef="8" />
+              <Parent isRef="46" />
+            </ГоризонтальнаяЛиния1>
+            <ГоризонтальнаяЛиния2 Ref="56" type="Stimulsoft.Report.Components.StiHorizontalLinePrimitive" isKey="true">
+              <ClientRectangle>2.4,1.8,3,0.0254</ClientRectangle>
+              <Color>Black</Color>
+              <Guid>54a58e5bce524f08a6c74ec6a3db21af</Guid>
+              <MaxSize>0,0</MaxSize>
+              <MinSize>0,0</MinSize>
+              <Name>ГоризонтальнаяЛиния2</Name>
+              <Page isRef="8" />
+              <Parent isRef="46" />
+            </ГоризонтальнаяЛиния2>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <MaxHeight>0</MaxHeight>
+          <MinHeight>0</MinHeight>
+          <Name>ИтогДанных1</Name>
+          <Page isRef="8" />
+          <Parent isRef="8" />
+        </ИтогДанных1>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>b6c3853979114e8ab9782e5ab9309e7e</Guid>
+      <Margins>1,1,1,1</Margins>
+      <Name>ВложенныйОтчет_1</Name>
+      <Page isRef="8" />
+      <PageHeight>29.7</PageHeight>
+      <PageWidth>11</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="57" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </ВложенныйОтчет_1>
+  </Pages>
+  <PrinterSettings Ref="58" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Отчет</ReportAlias>
+  <ReportChanged>2/24/2016 5:58:33 PM</ReportChanged>
+  <ReportCreated>2/24/2016 4:04:01 PM</ReportCreated>
+  <ReportGuid>b7e89d29c99644c8a5e6f8803c452522</ReportGuid>
+  <ReportName>Отчет</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2008.2.300</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    
+    public class Отчет : Stimulsoft.Report.StiReport
+    {
+        
+        public Отчет()
+        {
+            this.InitializeComponent();
+        }
+        #region StiReport Designer generated code - do not modify#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

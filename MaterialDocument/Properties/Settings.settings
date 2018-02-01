@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MaterialDocument.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Server" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.10.33</Value>
+    </Setting>
+    <Setting Name="Path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\DB_PULP\dispatcher.fdb</Value>
+    </Setting>
+    <Setting Name="UserId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">initial</Value>
+    </Setting>
+    <Setting Name="Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">initial</Value>
+    </Setting>
+    <Setting Name="LastConnected" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

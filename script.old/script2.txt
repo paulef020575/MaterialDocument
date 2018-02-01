@@ -1,0 +1,59 @@
+SET TERM ^ ;
+
+ALTER TRIGGER DOCMATERIALPERMIT_AI0
+ACTIVE AFTER INSERT POSITION 0
+AS
+begin
+  /* Trigger text */
+   insert into dochistory
+         (documentType, documentId, operation, operationDate, userId)
+      values
+         ('materialPermit', new.id, 'insert', new.modifydate, new.modifier);
+
+   update or insert into docUserSeen
+         (documentType, documentId, userId, dateSeen)
+      values
+         ('materialPermit', new.id, new.modifier, new.modifydate)
+      matching (documentType, documentId, userId);
+end
+
+^
+
+SET TERM ; ^
+
+/*--------------------------------------------------------------------------------------*/
+
+SET TERM ^ ;
+
+ALTER TRIGGER DOCMATERIALPERMIT_AU0
+ACTIVE AFTER UPDATE POSITION 0
+AS
+begin
+  /* Trigger text */
+   insert into docHistory
+         (documentType, documentId, operation, operationDate, userId)
+      values
+         ('materialPermit', new.id, 'update', new.modifydate, new.modifier);
+
+   update or insert into docUserSeen
+         (documentType, documentId, userId, dateSeen)
+      values
+         ('materialPermit', new.id, new.modifier, new.modifydate)
+      matching (documentType, documentId, userId);
+end
+
+^
+
+SET TERM ; ^
+
+/*--------------------------------------------------------------------------------------*/
+
+create index DOCHISTORY_IDX1
+on DOCHISTORY (DOCUMENTTYPE,DOCUMENTID);
+
+/*--------------------------------------------------------------------------------------*/
+
+create index DOCHISTORY_IDX2
+on DOCHISTORY (DOCUMENTTYPE,OPERATION);
+
+/*--------------------------------------------------------------------------------------*/

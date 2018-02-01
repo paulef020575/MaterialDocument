@@ -1,0 +1,95 @@
+SET TERM ^ ;
+
+ALTER PROCEDURE DOCMATERIALPERMITLOADLIST (
+    DOCUMENTID INTEGER,
+    UNIT INTEGER,
+    DATEFROM DATE,
+    DATETO DATE)
+RETURNS (
+    ID INTEGER,
+    UNITID INTEGER,
+    UNITNAME VARCHAR(50),
+    DOCNUMBER VARCHAR(50),
+    DOCDATE DATE,
+    PERSON VARCHAR(300),
+    VEHICLEMARK VARCHAR(100),
+    LICENSEPLATE VARCHAR(50),
+    CREATEFLAG SMALLINT,
+    CREATOR INTEGER,
+    CREATORNAME VARCHAR(200),
+    CREATEDATE DATE,
+    SIGNEDFLAG SMALLINT,
+    SIGNER INTEGER,
+    SIGNERNAME VARCHAR(200),
+    SIGNDATE DATE,
+    ENTRYFLAG SMALLINT,
+    ENTRYPOINT INTEGER,
+    ENTRYPOINTNAME VARCHAR(50),
+    ENTRYDATE DATE,
+    COMMENT BLOB SUB_TYPE 1 SEGMENT SIZE 4096,
+    AUTOPERMIT INTEGER)
+AS
+BEGIN
+  FOR SELECT doc.ID,
+             doc.UNITID,
+             (select name from refUnits where id = doc.unitId),
+             doc.DOCNUMBER,
+             doc.DOCDATE,
+             doc.PERSON,
+             doc.VEHICLEMARK,
+             doc.LICENSEPLATE,
+             doc.CREATEFLAG,
+             doc.CREATOR,
+             (select lastname || ' '|| firstname || ' ' || secondname
+                     from secUsers where id = doc.creator),
+             doc.CREATEDATE,
+             doc.SIGNEDFLAG,
+             doc.SIGNER,
+             (select lastname || ' '|| firstname || ' ' || secondname
+                     from secUsers where id = doc.signer),
+             doc.SIGNDATE,
+             doc.ENTRYFLAG,
+             doc.ENTRYPOINT,
+             (select name from refEntryPoint where id = doc.entryPoint),
+             ENTRYDATE,
+             COMMENT,
+             autoPermit
+      FROM DOCMATERIALPERMIT doc
+     where (:documentId is not null
+            and doc.id = :documentId)
+           or (:documentId is null
+               and (doc.unitId = :UNIT or :UNIT is null or :UNIT = 0)
+               and doc.docdate between :dateFrom and :dateTo)
+     Order by doc.docDate desc
+      INTO :ID,
+           :UNITID,
+           :unitName,
+           :DOCNUMBER,
+           :DOCDATE,
+           :PERSON,
+           :VEHICLEMARK,
+           :LICENSEPLATE,
+           :CREATEFLAG,
+           :CREATOR,
+           :CREATORNAME,
+           :CREATEDATE,
+           :SIGNEDFLAG,
+           :SIGNER,
+           :signerName,
+           :SIGNDATE,
+           :ENTRYFLAG,
+           :ENTRYPOINT,
+           :entryPointName,
+           :ENTRYDATE,
+           :COMMENT,
+           :autoPermit
+  DO
+  BEGIN
+    SUSPEND;
+  END
+END
+
+^
+
+SET TERM ; ^
+

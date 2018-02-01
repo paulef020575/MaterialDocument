@@ -1,0 +1,271 @@
+ALTER TABLE DOCMATERIALPERMIT
+ADD BASEDOCUMENT VARCHAR(100) CHARACTER SET WIN1251 
+COLLATE WIN1251 ;
+
+ALTER TABLE DOCMATERIALPERMIT
+ADD BASEDOCNUMBER VARCHAR(100) CHARACTER SET WIN1251 
+COLLATE WIN1251 ;
+
+ALTER TABLE DOCMATERIALPERMIT
+ADD BASEDOCDATE DATE;
+
+SET TERM ^ ;
+
+ALTER PROCEDURE DOCMATERIALPERMITINSERT (
+    ID INTEGER,
+    UNITID INTEGER,
+    DOCNUMBER VARCHAR(50),
+    DOCDATE DATE,
+    PERSON VARCHAR(300),
+    VEHICLEMARK VARCHAR(100),
+    LICENSEPLATE VARCHAR(50),
+    CREATEFLAG SMALLINT,
+    CREATOR INTEGER,
+    CREATEDATE DATE,
+    SIGNEDFLAG SMALLINT,
+    SIGNER INTEGER,
+    SIGNDATE DATE,
+    ENTRYFLAG SMALLINT,
+    ENTRYPOINT INTEGER,
+    ENTRYDATE DATE,
+    COMMENT BLOB SUB_TYPE 1 SEGMENT SIZE 4096,
+    MODIFIER INTEGER,
+    AUTOPERMIT INTEGER,
+    BASEDOCUMENT VARCHAR(100),
+    BASEDOCNUMBER VARCHAR(100),
+    BASEDOCDATE DATE)
+AS
+BEGIN
+  INSERT INTO DOCMATERIALPERMIT (
+    ID,
+    UNITID,
+    DOCNUMBER,
+    DOCDATE,
+    PERSON,
+    VEHICLEMARK,
+    LICENSEPLATE,
+    CREATEFLAG,
+    CREATOR,
+    CREATEDATE,
+    SIGNEDFLAG,
+    SIGNER,
+    SIGNDATE,
+    ENTRYFLAG,
+    ENTRYPOINT,
+    ENTRYDATE,
+    COMMENT,
+    MODIFIER,
+    MODIFYDATE,
+    AutoPermit,
+    baseDocument,
+    baseDocNumber,
+    baseDocDate)
+  VALUES (
+    :ID,
+    :UNITID,
+    :DOCNUMBER,
+    :DOCDATE,
+    :PERSON,
+    :VEHICLEMARK,
+    :LICENSEPLATE,
+    :CREATEFLAG,
+    :CREATOR,
+    :CREATEDATE,
+    :SIGNEDFLAG,
+    :SIGNER,
+    :SIGNDATE,
+    :ENTRYFLAG,
+    :ENTRYPOINT,
+    :ENTRYDATE,
+    :COMMENT,
+    :modifier,
+    current_timestamp,
+    :autopermit,
+    :baseDocument,
+    :baseDocNumber,
+    :baseDocDate);
+END
+
+^
+
+SET TERM ; ^
+
+
+SET TERM ^ ;
+
+ALTER PROCEDURE DOCMATERIALPERMITLOADLIST (
+    DOCUMENTID INTEGER,
+    UNIT INTEGER,
+    DATEFROM DATE,
+    DATETO DATE,
+    USERID INTEGER)
+RETURNS (
+    ID INTEGER,
+    UNITID INTEGER,
+    UNITNAME VARCHAR(50),
+    DOCNUMBER VARCHAR(50),
+    DOCDATE DATE,
+    PERSON VARCHAR(300),
+    VEHICLEMARK VARCHAR(100),
+    LICENSEPLATE VARCHAR(50),
+    CREATEFLAG SMALLINT,
+    CREATOR INTEGER,
+    CREATORNAME VARCHAR(200),
+    CREATEDATE DATE,
+    SIGNEDFLAG SMALLINT,
+    SIGNER INTEGER,
+    SIGNERNAME VARCHAR(200),
+    SIGNDATE DATE,
+    ENTRYFLAG SMALLINT,
+    ENTRYPOINT INTEGER,
+    ENTRYPOINTNAME VARCHAR(50),
+    ENTRYDATE DATE,
+    COMMENT BLOB SUB_TYPE 1 SEGMENT SIZE 4096,
+    AUTOPERMIT INTEGER,
+    ISNEW SMALLINT,
+    BASEDOCUMENT VARCHAR(100),
+    BASEDOCNUMBER VARCHAR(100),
+    BASEDOCDATE DATE)
+AS
+BEGIN
+  FOR SELECT doc.ID,
+             doc.UNITID,
+             (select name from refUnits where id = doc.unitId),
+             doc.DOCNUMBER,
+             doc.DOCDATE,
+             doc.PERSON,
+             doc.VEHICLEMARK,
+             doc.LICENSEPLATE,
+             doc.CREATEFLAG,
+             doc.CREATOR,
+             (select lastname || ' '|| firstname || ' ' || secondname
+                     from secUsers where id = doc.creator),
+             doc.CREATEDATE,
+             doc.SIGNEDFLAG,
+             doc.SIGNER,
+             (select lastname || ' '|| firstname || ' ' || secondname
+                     from secUsers where id = doc.signer),
+             doc.SIGNDATE,
+             doc.ENTRYFLAG,
+             doc.ENTRYPOINT,
+             (select name from refEntryPoint where id = doc.entryPoint),
+             ENTRYDATE,
+             COMMENT,
+             autoPermit,
+             case
+                 when :userId is null then 0
+                 when seen.dateSeen is null then 1
+                 when seen.dateSeen < doc.modifydate then 1
+                 else 0
+             end,
+             baseDocument,
+             baseDocNumber,
+             baseDocDate
+      FROM DOCMATERIALPERMIT doc
+           left join docUserSeen seen
+                on (seen.documentType = 'materialPermit'
+                    and seen.documentId = doc.id
+                    and seen.userId = :USERID)
+     where (:documentId is not null
+            and doc.id = :documentId)
+           or (:documentId is null
+               and (doc.unitId = :UNIT or :UNIT is null or :UNIT = 0)
+               and doc.docdate between :dateFrom and :dateTo)
+     Order by doc.docDate desc
+      INTO :ID,
+           :UNITID,
+           :unitName,
+           :DOCNUMBER,
+           :DOCDATE,
+           :PERSON,
+           :VEHICLEMARK,
+           :LICENSEPLATE,
+           :CREATEFLAG,
+           :CREATOR,
+           :CREATORNAME,
+           :CREATEDATE,
+           :SIGNEDFLAG,
+           :SIGNER,
+           :signerName,
+           :SIGNDATE,
+           :ENTRYFLAG,
+           :ENTRYPOINT,
+           :entryPointName,
+           :ENTRYDATE,
+           :COMMENT,
+           :autoPermit,
+           :isNew,
+           :baseDocument,
+           :baseDocNumber,
+           :baseDocDate
+
+  DO
+  BEGIN
+    SUSPEND;
+  END
+END
+
+^
+
+SET TERM ; ^
+
+
+
+SET TERM ^ ;
+
+ALTER PROCEDURE DOCMATERIALPERMITUPDATE (
+    ID INTEGER,
+    UNITID INTEGER,
+    DOCNUMBER VARCHAR(50),
+    DOCDATE DATE,
+    PERSON VARCHAR(300),
+    VEHICLEMARK VARCHAR(100),
+    LICENSEPLATE VARCHAR(50),
+    CREATEFLAG SMALLINT,
+    CREATOR INTEGER,
+    CREATEDATE DATE,
+    SIGNEDFLAG SMALLINT,
+    SIGNER INTEGER,
+    SIGNDATE DATE,
+    ENTRYFLAG SMALLINT,
+    ENTRYPOINT INTEGER,
+    ENTRYDATE DATE,
+    COMMENT BLOB SUB_TYPE 1 SEGMENT SIZE 4096,
+    MODIFIER INTEGER,
+    AUTOPERMIT INTEGER,
+    BASEDOCUMENT VARCHAR(100),
+    BASEDOCNUMBER VARCHAR(100),
+    BASEDOCDATE DATE)
+AS
+BEGIN
+  UPDATE DOCMATERIALPERMIT
+  SET UNITID = :UNITID,
+      DOCNUMBER = :DOCNUMBER,
+      DOCDATE = :DOCDATE,
+      PERSON = :PERSON,
+      VEHICLEMARK = :VEHICLEMARK,
+      LICENSEPLATE = :LICENSEPLATE,
+      CREATEFLAG = :CREATEFLAG,
+      CREATOR = :CREATOR,
+      CREATEDATE = :CREATEDATE,
+      SIGNEDFLAG = :SIGNEDFLAG,
+      SIGNER = :SIGNER,
+      SIGNDATE = :SIGNDATE,
+      ENTRYFLAG = :ENTRYFLAG,
+      ENTRYPOINT = :ENTRYPOINT,
+      ENTRYDATE = :ENTRYDATE,
+      COMMENT = :COMMENT,
+      MODIFIER = :MODIFIER,
+      MODIFYDATE = current_timestamp,
+      autoPermit = :autopermit,
+      baseDocument = :baseDocument,
+      baseDocNumber = :baseDocNumber,
+      baseDocDate = :baseDocDate
+  WHERE (ID = :ID);
+END
+
+^
+
+SET TERM ; ^
+
+

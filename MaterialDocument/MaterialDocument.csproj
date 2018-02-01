@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0905CAAD-63EE-4387-AA90-E0583983FA0A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MaterialDocument</RootNamespace>
+    <AssemblyName>MaterialDocument</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>\\172.17.0.30\Exchange\Material\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Unc</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>true</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ProductName>Управление материальными пропусками</ProductName>
+    <PublisherName>ОАО Кондопога</PublisherName>
+    <MinimumRequiredVersion>0.0.1.3</MinimumRequiredVersion>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>1455413011_clipboard.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>273D38D4C6FF9D0668D9ACD6F3712B86E8EFA4CF</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>asu_cert.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="EPV.Database">
+      <HintPath>..\..\EPV.Framework\EPV.Database\bin\Release\EPV.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="EPV.DataItem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EPV.Framework\EPV.Database\EPV.DataItem\bin\Release\EPV.DataItem.dll</HintPath>
+    </Reference>
+    <Reference Include="FirebirdSql.Data.FirebirdClient, Version=2.7.7.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EntryControl\EntryControl\bin\Debug\FirebirdSql.Data.FirebirdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Base">
+      <HintPath>..\..\EntryControl\EntryControl\bin\Debug\Stimulsoft.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Controls">
+      <HintPath>..\..\EntryControl\EntryControl\bin\Debug\Stimulsoft.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Controls.Win">
+      <HintPath>..\..\EntryControl\EntryControl\bin\Debug\Stimulsoft.Controls.Win.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Editor">
+      <HintPath>..\..\EntryControl\EntryControl\bin\Debug\Stimulsoft.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report, Version=2008.2.300.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EntryControl\EntryControl\bin\Debug\Stimulsoft.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report.Design">
+      <HintPath>..\..\EntryControl\EntryControl\bin\Debug\Stimulsoft.Report.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report.FirebirdDatabase">
+      <HintPath>..\..\EntryControl\EntryControl\bin\Debug\Stimulsoft.Report.FirebirdDatabase.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report.Win">
+      <HintPath>..\..\EntryControl\EntryControl\bin\Debug\Stimulsoft.Report.Win.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DocumentPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DocumentPropertiesForm.Designer.cs">
+      <DependentUpon>DocumentPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LogonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogonForm.Designer.cs">
+      <DependentUpon>LogonForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialPermitControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MaterialPermitControl.Designer.cs">
+      <DependentUpon>MaterialPermitControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MaterialPermitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MaterialPermitForm.Designer.cs">
+      <DependentUpon>MaterialPermitForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SelectPermitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectPermitForm.Designer.cs">
+      <DependentUpon>SelectPermitForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetCommentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetCommentForm.Designer.cs">
+      <DependentUpon>SetCommentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="StartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartForm.Designer.cs">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="servers.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DocumentPropertiesForm.resx">
+      <DependentUpon>DocumentPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogonForm.resx">
+      <DependentUpon>LogonForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MaterialPermitControl.resx">
+      <DependentUpon>MaterialPermitControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MaterialPermitForm.resx">
+      <DependentUpon>MaterialPermitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="SelectPermitForm.resx">
+      <DependentUpon>SelectPermitForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetCommentForm.resx">
+      <DependentUpon>SetCommentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartForm.resx">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <Content Include="Document.mrt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="asu_cert.pfx" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\EPV.Framework\EPV.Controls\EPV.Controls.csproj">
+      <Project>{C9214571-5E41-4609-8DA7-9F2B1EC25C3C}</Project>
+      <Name>EPV.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MaterialDocument.Classes\MaterialDocument.Classes.csproj">
+      <Project>{8CC6DADF-B3EB-4A75-9BF1-8FCF5E56DB9B}</Project>
+      <Name>MaterialDocument.Classes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MaterialDocument.Resources\MaterialDocument.Resources.csproj">
+      <Project>{A071FB23-4D2F-4368-B9B4-2F3F3B0B748A}</Project>
+      <Name>MaterialDocument.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="1455413011_clipboard.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="Stimulsoft.Base">
+      <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Stimulsoft.Controls">
+      <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Stimulsoft.Controls.Win">
+      <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Stimulsoft.Database">
+      <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Stimulsoft.Editor">
+      <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Stimulsoft.Report">
+      <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Stimulsoft.Report.Design">
+      <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Stimulsoft.Report.Win">
+      <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

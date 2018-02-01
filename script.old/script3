@@ -1,0 +1,241 @@
+ALTER TABLE DOCMATERIALPERMIT
+ADD AUTOPERMIT INTEGER;
+
+/*---------------------------------------------------------------------------*/
+
+alter table DOCMATERIALPERMIT
+add constraint FK_DOCMATERIALPERMIT
+foreign key (AUTOPERMIT)
+references DOCPERMIT(ID)
+on delete SET NULL
+on update SET NULL;
+
+/*---------------------------------------------------------------------------*/
+
+SET TERM ^ ;
+
+ALTER PROCEDURE DOCMATERIALPERMITINSERT (
+    ID INTEGER,
+    UNITID INTEGER,
+    DOCNUMBER VARCHAR(50),
+    DOCDATE DATE,
+    PERSON VARCHAR(300),
+    VEHICLEMARK VARCHAR(100),
+    LICENSEPLATE VARCHAR(50),
+    CREATEFLAG SMALLINT,
+    CREATOR INTEGER,
+    CREATEDATE DATE,
+    SIGNEDFLAG SMALLINT,
+    SIGNER INTEGER,
+    SIGNDATE DATE,
+    ENTRYFLAG SMALLINT,
+    ENTRYPOINT INTEGER,
+    ENTRYDATE DATE,
+    COMMENT BLOB SUB_TYPE 1 SEGMENT SIZE 4096,
+    MODIFIER INTEGER,
+    AUTOPERMIT INTEGER)
+AS
+BEGIN
+  INSERT INTO DOCMATERIALPERMIT (
+    ID,
+    UNITID,
+    DOCNUMBER,
+    DOCDATE,
+    PERSON,
+    VEHICLEMARK,
+    LICENSEPLATE,
+    CREATEFLAG,
+    CREATOR,
+    CREATEDATE,
+    SIGNEDFLAG,
+    SIGNER,
+    SIGNDATE,
+    ENTRYFLAG,
+    ENTRYPOINT,
+    ENTRYDATE,
+    COMMENT,
+    MODIFIER,
+    MODIFYDATE,
+    AutoPermit)
+  VALUES (
+    :ID,
+    :UNITID,
+    :DOCNUMBER,
+    :DOCDATE,
+    :PERSON,
+    :VEHICLEMARK,
+    :LICENSEPLATE,
+    :CREATEFLAG,
+    :CREATOR,
+    :CREATEDATE,
+    :SIGNEDFLAG,
+    :SIGNER,
+    :SIGNDATE,
+    :ENTRYFLAG,
+    :ENTRYPOINT,
+    :ENTRYDATE,
+    :COMMENT,
+    :modifier,
+    current_timestamp,
+    :autopermit);
+END
+
+^
+
+SET TERM ; ^
+
+/*---------------------------------------------------------------------------*/
+
+SET TERM ^ ;
+
+ALTER PROCEDURE DOCMATERIALPERMITLOADLIST (
+    DOCUMENTID INTEGER,
+    UNIT INTEGER,
+    DATEFROM DATE,
+    DATETO DATE)
+RETURNS (
+    ID INTEGER,
+    UNITID INTEGER,
+    UNITNAME VARCHAR(50),
+    DOCNUMBER VARCHAR(50),
+    DOCDATE DATE,
+    PERSON VARCHAR(300),
+    VEHICLEMARK VARCHAR(100),
+    LICENSEPLATE VARCHAR(50),
+    CREATEFLAG SMALLINT,
+    CREATOR INTEGER,
+    CREATORNAME VARCHAR(200),
+    CREATEDATE DATE,
+    SIGNEDFLAG SMALLINT,
+    SIGNER INTEGER,
+    SIGNERNAME VARCHAR(200),
+    SIGNDATE DATE,
+    ENTRYFLAG SMALLINT,
+    ENTRYPOINT INTEGER,
+    ENTRYPOINTNAME VARCHAR(50),
+    ENTRYDATE DATE,
+    COMMENT BLOB SUB_TYPE 1 SEGMENT SIZE 4096,
+    AUTOPERMIT INTEGER)
+AS
+BEGIN
+  FOR SELECT doc.ID,
+             doc.UNITID,
+             (select name from refUnits where id = doc.unitId),
+             doc.DOCNUMBER,
+             doc.DOCDATE,
+             doc.PERSON,
+             doc.VEHICLEMARK,
+             doc.LICENSEPLATE,
+             doc.CREATEFLAG,
+             doc.CREATOR,
+             (select lastname || ' '|| firstname || ' ' || secondname
+                     from secUsers where id = doc.creator),
+             doc.CREATEDATE,
+             doc.SIGNEDFLAG,
+             doc.SIGNER,
+             (select lastname || ' '|| firstname || ' ' || secondname
+                     from secUsers where id = doc.signer),
+             doc.SIGNDATE,
+             doc.ENTRYFLAG,
+             doc.ENTRYPOINT,
+             (select name from refEntryPoint where id = doc.entryPoint),
+             ENTRYDATE,
+             COMMENT,
+             autoPermit
+      FROM DOCMATERIALPERMIT doc
+     where (:documentId is not null
+            and doc.id = :documentId)
+           or (:documentId is null
+               and doc.unitId = :UNIT
+               and doc.docdate between :dateFrom and :dateTo)
+     Order by doc.docDate desc
+      INTO :ID,
+           :UNITID,
+           :unitName,
+           :DOCNUMBER,
+           :DOCDATE,
+           :PERSON,
+           :VEHICLEMARK,
+           :LICENSEPLATE,
+           :CREATEFLAG,
+           :CREATOR,
+           :CREATORNAME,
+           :CREATEDATE,
+           :SIGNEDFLAG,
+           :SIGNER,
+           :signerName,
+           :SIGNDATE,
+           :ENTRYFLAG,
+           :ENTRYPOINT,
+           :entryPointName,
+           :ENTRYDATE,
+           :COMMENT,
+           :autoPermit
+  DO
+  BEGIN
+    SUSPEND;
+  END
+END
+
+^
+
+SET TERM ; ^
+
+/*---------------------------------------------------------------------------*/
+
+SET TERM ^ ;
+
+ALTER PROCEDURE DOCMATERIALPERMITUPDATE (
+    ID INTEGER,
+    UNITID INTEGER,
+    DOCNUMBER VARCHAR(50),
+    DOCDATE DATE,
+    PERSON VARCHAR(300),
+    VEHICLEMARK VARCHAR(100),
+    LICENSEPLATE VARCHAR(50),
+    CREATEFLAG SMALLINT,
+    CREATOR INTEGER,
+    CREATEDATE DATE,
+    SIGNEDFLAG SMALLINT,
+    SIGNER INTEGER,
+    SIGNDATE DATE,
+    ENTRYFLAG SMALLINT,
+    ENTRYPOINT INTEGER,
+    ENTRYDATE DATE,
+    COMMENT BLOB SUB_TYPE 1 SEGMENT SIZE 4096,
+    MODIFIER INTEGER,
+    AUTOPERMIT INTEGER)
+AS
+BEGIN
+  UPDATE DOCMATERIALPERMIT
+  SET UNITID = :UNITID,
+      DOCNUMBER = :DOCNUMBER,
+      DOCDATE = :DOCDATE,
+      PERSON = :PERSON,
+      VEHICLEMARK = :VEHICLEMARK,
+      LICENSEPLATE = :LICENSEPLATE,
+      CREATEFLAG = :CREATEFLAG,
+      CREATOR = :CREATOR,
+      CREATEDATE = :CREATEDATE,
+      SIGNEDFLAG = :SIGNEDFLAG,
+      SIGNER = :SIGNER,
+      SIGNDATE = :SIGNDATE,
+      ENTRYFLAG = :ENTRYFLAG,
+      ENTRYPOINT = :ENTRYPOINT,
+      ENTRYDATE = :ENTRYDATE,
+      COMMENT = :COMMENT,
+      MODIFIER = :MODIFIER,
+      MODIFYDATE = current_timestamp,
+      autoPermit = :autopermit
+  WHERE (ID = :ID);
+END
+
+^
+
+SET TERM ; ^
+
+/*---------------------------------------------------------------------------*/
+
+
+
+
